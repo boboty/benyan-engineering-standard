@@ -9,3 +9,9 @@ Fast Track 和 Java Track 共用一套前端默认值：Node.js 24 LTS、React 1
 UI 从官方 Design Tokens → 既有组件/规则 → 业务组件 → 页面。必须实际引用 `design-system/styles.css` 和已有组件；页面不得自行发明品牌色、字体、spacing、radius、shadow 或已有组件风格。Design System 快照保持原样，不能在 `web/` 复制另一套 token。
 
 最小 System Status 页面调用 `/api/v1/health`，分别测试加载、成功、失败；Playwright 经真实后端 HTTP 验证页面。API 对外契约与后端语言无关：`/api/v1`、REST 资源、HTTP 状态、分页格式、统一错误体和 `X-Request-ID` 均保持一致。
+
+## WebApp Docker Compose 交付基线
+
+WebApp 默认以 `docker compose up -d --build` 启动完整应用；宿主机只需可用的 Docker 环境，不要求预装 Python、Node 或 PostgreSQL。默认 Compose 必须包含 app 和全部必需依赖，不能只启动数据库。Fast Track WebApp 默认 app + PostgreSQL，不为此基线增加 nginx、Redis 或 Kubernetes。启动完成后 README 指明一个可直接访问完整应用的 Web 地址；前端生产构建和 `/api/v1/*` 由同一应用入口提供。
+
+数据库使用持久化 volume，db 和 app 都有健康检查。迁移在 app 对外 ready 前自动执行；迁移失败时 app 不得 ready。应用使用容器内数据库地址，配置通过环境变量注入，生产凭据遵循[配置与 Secret](07-configuration-secrets.md)。宿主机 `make dev` 可保留用于热更新，但不是项目运行前提。交付时从干净 Compose 环境实际验证构建、迁移、健康状态、首页、API 和重启后的数据持久化。
