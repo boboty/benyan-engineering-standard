@@ -1,0 +1,11 @@
+# 共享 Web 前端规范
+
+Fast Track 和 Java Track 共用一套前端默认值：Node.js 24 LTS、React 19.x、TypeScript、Vite 8.x、React Router、Vitest、Testing Library、Playwright 与 BenYan AI Design System。需要服务端缓存或 mutation 时引入 TanStack Query。前端始终调用相对路径 `/api/v1/*`，开发时由 Vite proxy 指向后端；不在业务代码写本机后端地址。
+
+状态归属：URL/导航状态用 React Router；服务端数据、缓存和 mutation 用 TanStack Query（出现需求时）；组件局部状态用 `useState`/`useReducer`；跨页面纯客户端状态出现真实需求后才考虑 Zustand 等工具。初始化时不建全局 Store，不把 API 数据复制进全局状态，也不提前引入 Redux、Zustand。
+
+推荐 `web/src/app/` 放启动、Router、Provider；`pages/` 放路由页面；`features/` 放真实业务；`components/` 放复用业务组件；`api/` 放 HTTP client/契约；`hooks/`、`types/`、`styles/` 按需要建立，不为目录图创建空模块。两个 Web Starter 尽量同构；统一 `npm run dev/lint/typecheck/test/build/e2e/check`，其中 `check` 运行前四项中的 lint、typecheck、test、build。
+
+UI 从官方 Design Tokens → 既有组件/规则 → 业务组件 → 页面。必须实际引用 `design-system/styles.css` 和已有组件；页面不得自行发明品牌色、字体、spacing、radius、shadow 或已有组件风格。Design System 快照保持原样，不能在 `web/` 复制另一套 token。
+
+最小 System Status 页面调用 `/api/v1/health`，分别测试加载、成功、失败；Playwright 经真实后端 HTTP 验证页面。API 对外契约与后端语言无关：`/api/v1`、REST 资源、HTTP 状态、分页格式、统一错误体和 `X-Request-ID` 均保持一致。
