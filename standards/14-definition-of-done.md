@@ -1,5 +1,5 @@
 # Definition of Done
 
-代码已实现，测试、ruff、pyright 通过；适用时实际验证接口/UI，检查日志、临时代码、Secret 和必要文档；由 Independent Verifier 完成独立验收，本人将 PASS、证据和限制写入 `PROGRESS.md` 并创建最终任务 commit。开发者不能仅凭自己的判断证明正确，也不能宣布或代写 PASS。
+交付满足 Task Card 的验收标准，范围与限制清楚；适用的测试、lint、类型检查和接口/UI 验证已执行并报告原始结果、未验证项及原因，检查日志、临时代码、Secret 和必要文档。Independent Verifier 对照 Task Card 审阅完整 diff 和相关代码，沿真实业务链路核对测试路径与证据，评估 mock、手工构造或同源假设是否绕过核心风险，并检查边界遗漏和越界改动；必要时独立运行验证。结论须关联交付版本和实际验证；测试全绿不自动等于完成，未通过或跳过的检查须逐项说明、评估影响，并按 Task 要求判断能否 PASS。PASS 后由 Orchestrator 更新 Task Board；不得以 Developer 自评或口头声称代替独立验收。
 
 > 代码写完不等于完成。模型说完成更不等于完成。

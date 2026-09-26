@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.3.0
+
+- 收敛 AI 协作记录职责：Task 定义工作、Board 管状态、Workspace/Git 留成果、Agent activity 留过程、Verifier 提供完成证据。
+- 明确 Orchestrator、Developer、Independent Verifier 的职责，以及 PASS/RC/BLOCKED 和中断接续规则；正常流程移除 `PROGRESS.md` 与最终任务 commit 依赖。
+- 补充独立验收证据闭环与任务粒度要求。
+- 已有 `PROGRESS.md` 可保留作历史记录；新任务按本版规则执行，无需继续更新；以下 v1.2.0 及更早条目仅为历史记录。
+
 ## v1.2.0
 
 - 明确 Developer 与 Independent Verifier 职责：Developer 不得宣布或代写 PASS，内部 reviewer 不构成独立验收。
