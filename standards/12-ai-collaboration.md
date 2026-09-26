@@ -13,7 +13,7 @@
 
 以下规则与具体工具、模型、产品无关。
 
-- **Orchestrator**：仅在既定 Task Card/Board 范围内安排依赖、推进策略和当前有效角色，并协调 Developer 与 Independent Verifier；不得自行修改 Task 目标、边界或验收标准，不实现交付或自验。凡拆分、合并或重拆涉及 Task 定义变化，或发现产品、架构变化需要裁决时，停止相关工作并交更高层控制角色处理。
+- **Orchestrator**：仅在既定 Task Card/Board 范围内安排依赖、推进策略和当前有效角色，并协调 Developer 与 Independent Verifier；Task Board 所指定者是该 Task 唯一当前有效 Developer，也是唯一持有该 Task 实现写入权者。写入权移交生效后，被替换前任不再是当前有效 Developer，且无权继续写入该 Task 的 Workspace。不得自行修改 Task 目标、边界或验收标准，不实现交付或自验。凡拆分、合并或重拆涉及 Task 定义变化，或发现产品、架构变化需要裁决时，停止相关工作并交更高层控制角色处理。
 - **Developer**：按 Task 与 Board 当前有效分工实现、验证并自检，报告改动、未完成事项、验证结果和限制；不得自行宣布或代写 PASS。内部 reviewer 或 self-review 仅是开发阶段检查，不构成正式独立验收。
 - **Independent Verifier**：与 Developer 保持独立判断；由人员执行时应为不同人员，使用 AI 时至少使用独立会话和独立上下文。对照 Task Card 验收标准审阅完整 diff 及相关代码，沿真实业务链路核对测试路径和证据；评估 mock、手工构造、同源假设是否绕过核心风险，并检查边界遗漏和越界改动，必要时独立运行验证。对交付内容只读，不改代码、测试、Task Card 或普通项目文档；将验收结论及证据反馈给 Orchestrator，由其更新 Board。Verifier 不负责实现修复或创建任务 commit。
 - **RC**：Verifier 给出具体问题、证据和验证限制；Orchestrator 将任务返回给当前有效 Developer。修复后必须新启动一轮独立 Verifier 验收，不能沿用修复前的 PASS 或验收结论。
@@ -24,6 +24,8 @@
 
 ## Agent 中断与接续
 
-- **轻度中断**：Orchestrator 可指定替代 Developer。接替者先阅读 Task Card、Board、当前 diff/Workspace/Git 和前任 Agent activity，复核可能已变化的运行状态；确认交付边界后只处理剩余工作，并记录接续依据。接替者不是 Verifier，也不继承前任未完成的验收结论。
+- 控制面发生 transport/connection error、超时或会话异常，只能说明控制面未能正常观察或通信，不能据此认定旧执行端已经停止。替换是实现写入权的移交；在接替 Developer 获得写入权前，Orchestrator 必须先确认前任已停止、归档、取消，或已通过执行环境等价机制失去对当前 Workspace 的写入能力。不能仅凭错误并行启动替代 Developer；无法确认 Task 当前只有一个有效写入者时，暂停该 Task 并标记 BLOCKED。
+- **轻度中断**：Orchestrator 可指定替代 Developer。接替者先阅读 Task Card、Board、当前 diff/Workspace/Git 和前任 Agent activity，复核可能已变化的运行状态；确认交付边界后只处理剩余工作，并记录接续依据。若发现无人预期的文件变化、尚未编辑的 diff 已变化，或怀疑旧执行者延迟恢复，接替者或 Orchestrator 必须暂停写入，查明仍可能运行的执行者，收回多余写入资格，并确认 Workspace 已稳定后再决定由谁继续。Workspace 稳定前不得正式验收或宣称 PASS。接替者不是 Verifier，也不继承前任未完成的验收结论。
+- 正式启动 Independent Verifier 前，Orchestrator 确认 Developer 已完成自检、没有其他可能写入者，且交付已稳定；验收期间交付内容不得变化。可用 Git diff、Workspace 状态、文件摘要或其他等价方式，在验收前后确认交付稳定。若 Verifier 发现交付变化，应暂停验收并反馈 Orchestrator；针对旧交付内容的验收结论失效。变化后的交付须重新确认稳定，并新启动一轮 Independent Verifier 验收。
 - 若中断发生在 RC 之后，Board 当前有效角色返回 Developer；修复完成后必须新启动 Independent Verifier。
 - **严重中断**：若目标、边界、依赖或运行状态已不可靠，暂停原执行；可在既定 Task 定义内回退或重启。若恢复需要拆分、合并或重拆并改变 Task 定义，须停止并交更高层控制角色裁决。

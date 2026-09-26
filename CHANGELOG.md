@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.1
+
+- 补齐 Agent failover 的真实边界：实践暴露 transport/connection 故障、超时或会话异常不代表旧执行端停止；移交写入权前须先确保前任停止或失去当前 Workspace 写入能力，并始终维持单一有效 Developer。
+- 增加异常文件变化时暂停写入、查明并收回多余写入资格、确认 Workspace 稳定后再继续的要求；正式验收前确认 Developer 自检、无其他可能写入者和交付稳定，验收期间保持内容不变。
+
 ## v1.3.0
 
 - 收敛 AI 协作记录职责：Task 定义工作、Board 管状态、Workspace/Git 留成果、Agent activity 留过程、Verifier 提供完成证据。

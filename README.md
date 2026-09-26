@@ -1,6 +1,6 @@
 # BenYan Engineering Standard
 
-版本：v1.3.0。本仓库是 BenYan Demo、原型与初始产品的通用工程规范权威来源。按需求使用，不要求每个项目拥有所有层。
+版本：v1.3.1。本仓库是 BenYan Demo、原型与初始产品的通用工程规范权威来源。按需求使用，不要求每个项目拥有所有层。
 
 ```text
                    BenYan Engineering Standard

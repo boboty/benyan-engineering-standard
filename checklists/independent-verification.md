@@ -1,6 +1,8 @@
 # 独立验收
 
 - [ ] Verifier 与 Developer 保持独立判断；由人员执行时为不同人员，使用 AI 时至少为独立会话和独立上下文
+- [ ] 正式启动前，Orchestrator 已确认 Developer 完成自检、没有其他可能写入者，且交付稳定
+- [ ] 验收前后已用 Git diff、Workspace 状态、文件摘要或等价方式确认交付内容未变化；如 Verifier 发现变化，暂停验收并反馈 Orchestrator，旧交付验收结论失效；变化后的交付稳定后新启动独立验收
 - [ ] Developer 内部 reviewer 或 self-review 结果未被当作独立验收
 - [ ] 逐项对照 Task Card 验收标准；阅读完整 diff、相关代码和测试证据，必要时独立运行验证
 - [ ] 自动检查的原始结果可复查
