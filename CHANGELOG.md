@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3.2
+
+- 收敛 Task Board 粒度：Board 只持久化跨会话仍有调度价值的阶段状态、依赖、推进策略、阻塞/决策点和最终验收结果；RC、Verifier 轮次、当前 Agent 身份等短期执行态默认由 Orchestrator 会话维护。
+- 推荐 Board 使用 `READY / IN PROGRESS / BLOCKED / DONE`，需要人工裁决 Gate 时增加 `DECISION REQUIRED`；正式验收与 RC 修复通常属于 `IN PROGRESS` 内部过程。
+- 明确 Harness 设计原则：优先约束权力边界、不可逆风险和验收结果，不因假设模型会犯错而预先堆叠细粒度状态与操作规则；实践中反复出现的错误再补具体约束。
+
 ## v1.3.1
 
 - 补齐 Agent failover 的真实边界：实践暴露 transport/connection 故障、超时或会话异常不代表旧执行端停止；移交写入权前须先确保前任停止或失去当前 Workspace 写入能力，并始终维持单一有效 Developer。
