@@ -24,6 +24,19 @@ Board 推荐保持粗粒度：`READY`、`IN PROGRESS`、`BLOCKED`、`DONE`，项
 
 正常流程不要求某一角色创建最终任务 commit；按项目 Git 交付规则管理版本。push、merge 默认须人工授权，项目另有明确授权除外。
 
+
+## 执行平台与运行时适配
+
+执行平台（例如 Orca、Paseo 或其他 harness）属于**运行时上下文**，不属于研发协议状态。协议只定义角色、权力边界、Task / Board / Gate、single-writer、RC、Independent Verification 与停止条件。
+
+- Orchestrator 只使用当前 Run / 当前调度指令明确指定的 execution backend；不得根据历史示例、旧会话、仓库曾经使用的产品或 Agent Profile 推断默认平台。
+- 当前明确使用某个平台时，不主动搜索、启动或调用其他平台；平台切换必须由主控或当前 Run 明确指定。
+- 若 execution backend 未明确，Orchestrator 应停在调度准备状态请求指定，而不是自行探测多个平台。
+- 平台切换不改变 Task、Board、Gate、single-writer、RC、Verifier 独立性等协议语义。
+- Harness、模型、effort、auto/non-interactive mode 都是运行时资源；角色合法性来自职责边界与独立性，而不是来自某个产品、Profile、provider 或模型。
+
+> **协议定义流程，执行平台只是可替换的适配层。**
+
 ## Agent 中断与接续
 
 - 同一 Task / Workspace 任一时刻只允许一个拥有实现写入权的当前有效 Developer。这个唯一写入权是执行约束，不要求持续把 Agent 身份写入 Board；只要 Orchestrator 当前会话能可靠维护即可。
