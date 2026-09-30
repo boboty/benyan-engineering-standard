@@ -22,7 +22,17 @@ Board 推荐保持粗粒度：`READY`、`IN PROGRESS`、`BLOCKED`、`DONE`，项
 - **BLOCKED**：无法按当前 Task、依赖或可用证据继续推进，且需要跨会话恢复或更高层输入时，由 Orchestrator 在 Board 记录阻塞原因、已确认事实和所需裁决。涉及产品、架构或 Task 定义变化，或 Task 定义歧义、验收标准不可验证时，交更高层控制角色裁决。BLOCKED 本身不是完成结论。
 - **PASS**：Independent Verifier 确认交付满足 Task Card 验收标准，将本轮结论、可复查证据及限制反馈给 Orchestrator。Orchestrator 将 Task 置为 DONE，并记录足以恢复和追溯的最小验收信息与 accepted commit/baseline（如适用）。
 
-正常流程不要求某一角色创建最终任务 commit；按项目 Git 交付规则管理版本。push、merge 默认须人工授权，项目另有明确授权除外。
+## Git 交付边界
+
+正常本地任务中，**Independent Verifier PASS 之前不创建正式 implementation commit**。Developer 的实现、自检、RC 修复都在同一未提交 Workspace 中完成；Verifier 验收的是当前稳定 Workspace 相对任务基线的完整 diff。
+
+- RC 是 Task 内部修正循环，不是版本边界；RC 修复后继续保持未提交状态，并启动新的 Independent Verifier。
+- PASS 后，Developer 不再修改交付内容，只把已经验收通过的稳定 Workspace 一次性提交为该 Task 的最终 implementation commit。
+- Orchestrator 核对提交只包含已验收内容、Workspace 重新变干净后，将该 SHA 记录为 accepted commit/baseline。
+- 只有真实存在跨会话、跨机器或长时间中断恢复风险时，才允许创建临时 checkpoint commit；必须明确标记为 checkpoint，不得视为 accepted implementation commit，后续仍按最终 PASS 后一次性形成正式交付提交。
+- push、merge 默认须人工授权，项目另有明确授权除外。
+
+> **Task 是交付边界；RC 不是。Git 默认只记录最终通过验收的 Task 交付。**
 
 
 ## 执行平台与运行时适配
