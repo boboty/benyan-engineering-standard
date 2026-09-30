@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.3.5
+
+- 明确 Git 交付边界：Independent Verifier PASS 前不创建正式 implementation commit；Developer 实现、自检与 RC 修复保持在同一稳定 Workspace 中，由 Verifier 验收完整 diff。
+- 明确 Task 是交付边界、RC 不是版本边界；PASS 后再一次性形成最终 implementation commit，并由 Orchestrator 记录 accepted commit/baseline。
+- 仅在真实跨会话、跨机器或长时间中断恢复风险下允许 checkpoint commit，且不得替代最终通过验收的正式交付。
+
+## v1.3.4
+
+- 将执行平台与研发协议解耦：Orca、Paseo 等 harness 仅属于运行时上下文，不进入 Task / Board / Gate 等协议状态。
+- Orchestrator 只使用当前 Run 明确指定的 execution backend；未指定时停止在调度准备状态，不根据历史示例或仓库记录自行推断平台。
+- 明确平台、模型、effort 与运行模式均为可替换资源，角色合法性来自职责边界与独立性。
+
+## v1.3.3
+
+- 统一 PostgreSQL 主版本基线为 16，并要求开发、测试、CI、Compose 与交付环境保持主版本一致。
+- Fast Track 与 Java Track 显式采用 PostgreSQL 16；禁止使用 `postgres:latest`。
+- 项目若因既有验证或兼容约束使用 PostgreSQL 17，须在项目规则中明确说明并保持全链路版本一致。
+
 ## v1.3.2
 
 - 收敛 Task Board 粒度：Board 只持久化跨会话仍有调度价值的阶段状态、依赖、推进策略、阻塞/决策点和最终验收结果；RC、Verifier 轮次、当前 Agent 身份等短期执行态默认由 Orchestrator 会话维护。
