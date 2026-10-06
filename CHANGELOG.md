@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.0.0
+
+- 将 AI 研发协作制度从 Engineering Standard 中彻底拆出；删除 `standards/12-ai-collaboration.md`，本仓库不再定义 Orchestrator / Worker / Independent Verifier、Task Board、RC、handoff、PASS 权限或 Agent failover。
+- README、Git 交付、Definition of Done、新项目 SOP、AGENTS 模板和检查清单回归纯软件工程职责，不再复制 AI 工作流。
+- 保留独立复核作为通用工程质量手段，但不规定具体角色、Harness、模型或调度机制。
+- 这是职责边界调整：AI 协作流程由独立制度或工具维护，具体项目按需要接入。
+
 ## v1.3.5
 
 - 明确 Git 交付边界：Independent Verifier PASS 前不创建正式 implementation commit；Developer 实现、自检与 RC 修复保持在同一稳定 Workspace 中，由 Verifier 验收完整 diff。

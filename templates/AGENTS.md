@@ -1,5 +1,7 @@
 # 项目规则模板
 
-先读现有实现；使用本项目技术栈与已定义的质量门禁（若项目提供 `make check` 则使用它）。按业务复杂度建立层次，不创建无意义抽象。存在 UI 时使用 BenYan AI Design System。例外及理由写在本文件。完成后提供实际验证与独立验收证据。
+先读现有实现；使用本项目技术栈与已定义的质量门禁（若项目提供 `make check` 则使用它）。按业务复杂度建立层次，不创建无意义抽象。存在 UI 时使用 BenYan AI Design System。例外及理由写在本文件。
 
-按工程规范《AI 协作》执行：Task Card 定义工作，Task Board 管阶段状态，Workspace/Git 留成果，Agent activity 留过程，Independent Verifier 提供完成证据。Task Board 由 Orchestrator 维护，保持粗粒度，只持久化跨会话仍有调度价值的信息；RC、Verifier 轮次、当前 Agent 身份等短期执行态默认由 Orchestrator 会话维护。Developer 实现并自检；Independent Verifier 只读交付并给出 PASS/RC/BLOCKED 结论。正常流程不使用 `PROGRESS.md`。push、merge 须人工授权，除非本文件明确授权。
+完成后提供实际验证证据：适用的测试、lint、类型检查、构建、migration、接口 / UI / 数据库验证，以及未运行、失败或跳过检查的原因和影响。检查完整 diff、日志、临时代码、Secret 和必要文档。
+
+本文件只承载项目级工程规则。若项目采用 Agent、自动化调度或独立协作工作流，应引用对应的独立流程规范；不要在本文件复制另一套角色、状态和验收协议。
