@@ -8,6 +8,8 @@ Fast Track 和 Java Track 共用一套前端默认值：Node.js 24 LTS、React 1
 
 UI 从官方 Design Tokens → 既有组件/规则 → 业务组件 → 页面。必须实际引用 `design-system/styles.css` 和已有组件；页面不得自行发明品牌色、字体、spacing、radius、shadow 或已有组件风格。Design System 快照保持原样，不能在 `web/` 复制另一套 token。
 
+新增页面或明显改版须遵循 [UI 设计意图与质量验收规范](16-ui-design-quality.md)：先明确业务意图、信息层级与视觉方向，再实现并以真实渲染页面复核视觉、交互、响应式和可访问性。外部 UI Skills 与组件库只作参考，不得覆盖 Design System。
+
 最小 System Status 页面调用 `/api/v1/health`，分别测试加载、成功、失败；Playwright 经真实后端 HTTP 验证页面。API 对外契约与后端语言无关：`/api/v1`、REST 资源、HTTP 状态、分页格式、统一错误体和 `X-Request-ID` 均保持一致。
 
 ## WebApp Docker Compose 交付基线
